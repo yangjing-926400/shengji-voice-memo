@@ -39,8 +39,8 @@
     <section class="step">
       <span class="step-number">1</span>
       <h2>添加到主屏幕</h2>
-      <p>点击下面的按钮打开 Safari 分享菜单，然后选择“添加到主屏幕”。iPhone 不允许网页完全自动添加，这是系统限制。</p>
-      <div class="actions"><button class="primary" id="installButton" type="button">一键添加</button></div>
+      <p>点击“一键安装”后，按系统提示完成两次确认：添加到主屏幕、添加快捷指令。iPhone 不允许网页完全免确认安装。</p>
+      <div class="actions"><button class="primary" id="installButton" type="button">一键安装</button></div>
       <p id="manualHint" style="display:none;margin-top:12px;color:var(--green);">如果分享菜单没有出现，请点击 Safari 底部分享按钮，再选择“添加到主屏幕”。</p>
     </section>
 
@@ -72,10 +72,13 @@
     });
 
     installButton.addEventListener('click', async () => {
+      installButton.disabled = true;
+
       if (deferredPrompt) {
         deferredPrompt.prompt();
         await deferredPrompt.userChoice;
         deferredPrompt = null;
+        window.location.href = './Shengji.shortcut';
         return;
       }
 
@@ -86,15 +89,18 @@
             text: '添加声记到主屏幕',
             url: appURL
           });
-          manualHint.style.display = 'block';
+          window.setTimeout(() => {
+            window.location.href = './Shengji.shortcut';
+          }, 500);
           return;
         } catch {
-          // The user may close the share sheet; continue to the manual path.
+          manualHint.style.display = 'block';
         }
+      } else {
+        manualHint.style.display = 'block';
       }
 
-      window.location.href = appURL;
-      manualHint.style.display = 'block';
+      installButton.disabled = false;
     });
   </script>
 </body>
