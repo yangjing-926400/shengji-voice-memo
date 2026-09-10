@@ -1,4 +1,4 @@
-const CACHE_NAME = "shengji-v6";
+const CACHE_NAME = "shengji-v7";
 const ASSETS = [
   "./",
   "./index.html",
@@ -9,6 +9,7 @@ const ASSETS = [
   "./js/recorder.js",
   "./js/search.js",
   "./manifest.webmanifest",
+  "./install.html",
   "./icons/icon-192.png",
   "./icons/icon-512.png"
 ];

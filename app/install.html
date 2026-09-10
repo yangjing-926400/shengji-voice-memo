@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f7f6f3">
+  <title>安装声记</title>
+  <style>
+    :root { --canvas:#f7f6f3; --surface:#fff; --ink:#171816; --muted:#7d7e78; --line:#e5e3dd; --green:#3f6843; --green-soft:#e9f1e8; }
+    * { box-sizing:border-box; }
+    body { margin:0; min-height:100vh; background:var(--canvas); color:var(--ink); font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","PingFang SC",sans-serif; }
+    main { width:min(100%,520px); margin:0 auto; padding:calc(28px + env(safe-area-inset-top)) 22px calc(30px + env(safe-area-inset-bottom)); }
+    .brand { display:flex; align-items:center; gap:11px; margin-bottom:34px; color:var(--muted); font-size:13px; font-weight:650; }
+    .mark { display:grid; width:38px; height:38px; place-items:center; border-radius:10px; background:var(--ink); color:white; }
+    .mark svg { width:20px; height:20px; }
+    h1 { margin:0 0 10px; font-size:34px; letter-spacing:-1.3px; }
+    .lead { margin:0 0 28px; color:var(--muted); font-size:14px; line-height:1.75; }
+    .step { margin-bottom:14px; padding:18px; border:1px solid var(--line); border-radius:14px; background:var(--surface); }
+    .step-number { display:inline-grid; width:24px; height:24px; margin-bottom:12px; place-items:center; border-radius:8px; background:var(--ink); color:white; font-size:11px; font-weight:750; }
+    h2 { margin:0 0 8px; font-size:17px; letter-spacing:-.3px; }
+    p { margin:0; color:var(--muted); font-size:13px; line-height:1.7; }
+    .actions { margin-top:16px; }
+    .primary, .secondary { display:flex; min-height:50px; align-items:center; justify-content:center; border-radius:12px; text-decoration:none; font-size:14px; font-weight:700; }
+    .primary { background:var(--ink); color:white; }
+    .secondary { border:1px solid var(--line); background:var(--surface); color:var(--ink); }
+    .notice { margin-top:18px; padding:13px 14px; border-radius:11px; background:var(--green-soft); color:var(--green); font-size:11px; line-height:1.6; }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="brand">
+      <span class="mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round"><path d="M4 9v6M8 6v12M12 3v18M16 6v12M20 9v6"/></svg></span>
+      <span>声记 · 免费安装</span>
+    </div>
+
+    <h1>安装到 iPhone</h1>
+    <p class="lead">不需要 Xcode、开发者账号或 App Store。全部数据保存在你的手机本地。</p>
+
+    <section class="step">
+      <span class="step-number">1</span>
+      <h2>添加到主屏幕</h2>
+      <p>使用 Safari 打开声记，点击底部分享按钮，选择“添加到主屏幕”。</p>
+      <div class="actions"><a class="primary" href="./">打开声记</a></div>
+    </section>
+
+    <section class="step">
+      <span class="step-number">2</span>
+      <h2>安装听写快捷指令</h2>
+      <p>点击下面的文件导入 Shortcuts。也可以用隔空投送把电脑上的“声记.shortcut”发送到 iPhone。</p>
+      <div class="actions"><a class="secondary" href="./Shengji.shortcut">安装“声记”快捷指令</a></div>
+    </section>
+
+    <section class="step">
+      <span class="step-number">3</span>
+      <h2>开始使用</h2>
+      <p>运行“声记”快捷指令，或对 Siri 说“声记”。说完以后，文字会自动保存、归组并加入搜索。</p>
+    </section>
+
+    <div class="notice">如果快捷指令文件没有自动打开 Shortcuts，请从 Mac 隔空投送到 iPhone。搜索时说的话不会保存成新记录。</div>
+  </main>
+</body>
+</html>
