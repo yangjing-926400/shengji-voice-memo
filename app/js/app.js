@@ -508,6 +508,19 @@ async function openDetail(noteId) {
   dom.detailSheet.hidden = false;
 }
 
+function startShortcutCapture() {
+  const shortcutURL = `shortcuts://run-shortcut?name=${encodeURIComponent("声记")}`;
+  const startedAt = Date.now();
+  window.location.href = shortcutURL;
+
+  window.setTimeout(() => {
+    if (document.visibilityState === "visible" && Date.now() - startedAt < 2200) {
+      openDictation();
+      showToast("打开键盘麦克风，也可以直接说");
+    }
+  }, 1500);
+}
+
 function openDictation() {
   dom.dictationText.value = "";
   dom.dictationSheet.hidden = false;
@@ -691,7 +704,7 @@ async function initialize() {
   }
 }
 
-dom.startRecordButton.addEventListener("click", openDictation);
+dom.startRecordButton.addEventListener("click", startShortcutCapture);
 dom.openRecorderButton.addEventListener("click", startRecording);
 dom.stopRecordButton.addEventListener("click", stopRecording);
 dom.cancelRecordButton.addEventListener("click", cancelRecording);
