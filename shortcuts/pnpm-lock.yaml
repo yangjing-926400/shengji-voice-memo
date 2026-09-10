@@ -1,0 +1,67 @@
+lockfileVersion: '9.0'
+
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
+
+importers:
+
+  .:
+    dependencies:
+      '@joshfarrant/shortcuts-js':
+        specifier: 0.6.0
+        version: 0.6.0
+
+packages:
+
+  '@joshfarrant/shortcuts-js@0.6.0':
+    resolution: {integrity: sha512-/HWc8BpJxuMx/0gN9P/nO9uR+Wemn+v/AHwznwimPhZsIPQQl2THeB3hVX2vsqrCtG3MHdrfqaBMl3QqfMjl4Q==}
+    engines: {node: '>= 10'}
+
+  big-integer@1.6.52:
+    resolution: {integrity: sha512-QxD8cf2eVqJOOz63z6JIN9BzvVs/dlySa5HGSBH5xtR8dPteIRQnBxxKqkNTiT6jbDTF6jAfrd4oMcND9RGbQg==}
+    engines: {node: '>=0.6'}
+
+  bplist-creator@0.0.8:
+    resolution: {integrity: sha512-Za9JKzD6fjLC16oX2wsXfc+qBEhJBJB1YPInoAQpMLhDuj5aVOv1baGeIQSq1Fr3OCqzvsoQcSBSwGId/Ja2PA==}
+
+  bplist-parser@0.2.0:
+    resolution: {integrity: sha512-z0M+byMThzQmD9NILRniCUXYsYpjwnlO8N5uCFaCqIOpqRsJCrQL9NK3JsD67CN5a08nF5oIL2bD6loTdHOuKw==}
+    engines: {node: '>= 5.10.0'}
+
+  stream-buffers@2.2.0:
+    resolution: {integrity: sha512-uyQK/mx5QjHun80FLJTfaWE7JtwfRMKBLkMne6udYOmvH0CawotVa7TfgYHzAnpphn4+TweIx1QKMnRIbipmUg==}
+    engines: {node: '>= 0.10.0'}
+
+  tslib@1.10.0:
+    resolution: {integrity: sha512-qOebF53frne81cf0S9B41ByenJ3/IuH8yJKngAX35CmiZySA0khhkovshKK+jGCaMnVomla7gVlIcc3EvKPbTQ==}
+
+  uuid@3.4.0:
+    resolution: {integrity: sha512-HjSDRw6gZE5JMggctHBcjVak08+KEVhSIiDzFnT9S9aegmp85S/bReBVTb4QTFaRNptJ9kuYaNhnbNEOkbKb/A==}
+    deprecated: uuid@10 and below is no longer supported.  For ESM codebases, update to uuid@latest.  For CommonJS codebases, use uuid@11 (but be aware this version will likely be deprecated in 2028).
+    hasBin: true
+
+snapshots:
+
+  '@joshfarrant/shortcuts-js@0.6.0':
+    dependencies:
+      bplist-creator: 0.0.8
+      bplist-parser: 0.2.0
+      tslib: 1.10.0
+      uuid: 3.4.0
+
+  big-integer@1.6.52: {}
+
+  bplist-creator@0.0.8:
+    dependencies:
+      stream-buffers: 2.2.0
+
+  bplist-parser@0.2.0:
+    dependencies:
+      big-integer: 1.6.52
+
+  stream-buffers@2.2.0: {}
+
+  tslib@1.10.0: {}
+
+  uuid@3.4.0: {}

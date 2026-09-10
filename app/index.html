@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f7f6f3">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="声记">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="format-detection" content="telephone=no">
+  <title>声记</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon-192.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="icons/icon-180.png">
+  <link rel="apple-touch-icon" sizes="192x192" href="icons/icon-192.png">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <svg class="icon-defs" width="0" height="0" aria-hidden="true">
+    <symbol id="i-mic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="9" y="3" width="6" height="11" rx="3"/>
+      <path d="M5.5 11.5a6.5 6.5 0 0 0 13 0M12 18v3M9 21h6"/>
+    </symbol>
+    <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round">
+      <circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/>
+    </symbol>
+    <symbol id="i-stop" viewBox="0 0 24 24" fill="currentColor">
+      <rect x="6.5" y="6.5" width="11" height="11" rx="2"/>
+    </symbol>
+    <symbol id="i-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+      <path d="m9 18 6-6-6-6"/>
+    </symbol>
+    <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+      <path d="m5 12 4 4L19 6"/>
+    </symbol>
+    <symbol id="i-play" viewBox="0 0 24 24" fill="currentColor">
+      <path d="m8 5 11 7-11 7z"/>
+    </symbol>
+  </svg>
+
+  <div class="app-shell">
+    <main class="view home-view" id="homeView">
+      <header class="app-header">
+        <div>
+          <p class="header-kicker" id="todayLabel"></p>
+          <h1>我的记录</h1>
+          <p class="summary" id="summaryText">还没有记录</p>
+        </div>
+        <button class="icon-button" id="openSearchButton" type="button" aria-label="语音搜索">
+          <svg><use href="#i-search"></use></svg>
+        </button>
+      </header>
+
+      <aside class="install-tip" id="installTip" hidden>
+        <div>
+          <strong>安装到主屏幕</strong>
+          <span>点 Safari 底部分享按钮，再选择“添加到主屏幕”</span>
+        </div>
+        <button id="dismissInstallTip" type="button">知道了</button>
+      </aside>
+
+      <section class="home-content" id="homeContent">
+        <div class="empty-state" id="emptyState">
+          <div class="empty-icon"><svg><use href="#i-mic"></use></svg></div>
+          <h2>想到什么，点一下说</h2>
+          <p>记完就自动保存，同类的事情会放在一起。没有网络也能先录音。</p>
+        </div>
+        <div class="groups" id="groups"></div>
+      </section>
+
+      <footer class="capture-area">
+        <p class="capture-hint">点一下开始，再点一下保存</p>
+        <button class="primary-button" id="startRecordButton" type="button">
+          <svg><use href="#i-mic"></use></svg>
+          <span>开始说话</span>
+        </button>
+      </footer>
+    </main>
+
+    <section class="view record-view" id="recordView" hidden>
+      <header class="record-header">
+        <button class="text-button" id="cancelRecordButton" type="button">取消</button>
+        <span class="recording-label"><i></i>正在听</span>
+        <span class="swipe-hint">下滑取消</span>
+      </header>
+
+      <div class="record-focus" id="recordFocus">
+        <div class="timer" id="recordTimer">00:00</div>
+        <div class="waveform" id="recordingWave" aria-hidden="true">
+          <i style="height:24px"></i><i style="height:46px"></i><i style="height:74px"></i><i style="height:38px"></i><i style="height:92px"></i><i style="height:54px"></i><i style="height:31px"></i><i style="height:82px"></i><i style="height:105px"></i><i style="height:61px"></i><i style="height:36px"></i><i style="height:87px"></i><i style="height:51px"></i><i style="height:29px"></i>
+        </div>
+        <h2>你说吧</h2>
+        <p id="recordingStatus">正在录音，停止后会自动保存和归纳。</p>
+        <p class="live-transcript" id="liveTranscript"></p>
+      </div>
+
+      <footer class="record-actions">
+        <button class="primary-button stop-button" id="stopRecordButton" type="button">
+          <svg><use href="#i-stop"></use></svg><span>停止并保存</span>
+        </button>
+        <p>音频先保存在手机上，搜索时说的话不会成为新记录。</p>
+      </footer>
+    </section>
+
+    <section class="view search-view" id="searchView" hidden>
+      <header class="search-header">
+        <button class="icon-button rotate-180" id="closeSearchButton" type="button" aria-label="返回">
+          <svg><use href="#i-chevron"></use></svg>
+        </button>
+        <h1>找记录</h1>
+        <span class="header-spacer"></span>
+      </header>
+
+      <div class="search-body">
+        <form class="search-bar" id="searchForm">
+          <input id="searchInput" type="search" autocomplete="off" placeholder="问一句，例如：最近要买什么？" aria-label="输入搜索问题">
+          <button id="voiceSearchButton" type="button" aria-label="语音输入">
+            <svg><use href="#i-mic"></use></svg>
+          </button>
+        </form>
+
+        <section class="search-answer" id="searchAnswer" hidden>
+          <div class="search-answer-label"><svg><use href="#i-search"></use></svg><span id="answerLabel"></span></div>
+          <p id="answerText"></p>
+        </section>
+
+        <section class="search-results" id="searchResults"></section>
+        <div class="search-empty" id="searchEmpty">
+          <p>试着问：</p>
+          <button type="button" data-query="最近要买什么？">最近要买什么？</button>
+          <button type="button" data-query="妈妈相关的记录有哪些？">妈妈相关的记录有哪些？</button>
+          <button type="button" data-query="今天记录了什么？">今天记录了什么？</button>
+        </div>
+      </div>
+
+      <footer class="search-footer">
+        <p id="searchStatus">点麦克风直接问，也可以输入文字搜索</p>
+        <button class="primary-button" id="askAgainButton" type="button">
+          <svg><use href="#i-mic"></use></svg><span>问一句</span>
+        </button>
+      </footer>
+    </section>
+
+    <section class="detail-sheet" id="detailSheet" hidden aria-modal="true" role="dialog">
+      <div class="sheet-handle"></div>
+      <header class="detail-header">
+        <button class="text-button" id="closeDetailButton" type="button">完成</button>
+        <span id="detailGroup">其他</span>
+        <button class="text-button danger" id="deleteNoteButton" type="button">删除</button>
+      </header>
+      <div class="detail-body">
+        <h2 id="detailTitle"></h2>
+        <p class="detail-meta" id="detailMeta"></p>
+        <audio id="detailAudio" controls hidden></audio>
+        <p class="detail-transcript" id="detailTranscript"></p>
+      </div>
+    </section>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  </div>
+
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>

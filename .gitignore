@@ -1,0 +1,9 @@
+.DS_Store
+shortcuts/node_modules/
+server/SpeechTranscriber.app/
+*.xcuserstate
+xcuserdata/
+build/
+DerivedData/
+Payload/
+*.ipa
