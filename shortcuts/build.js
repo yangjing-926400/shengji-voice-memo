@@ -15,8 +15,8 @@ function withActionOutput(builder) {
 const dictateText = withActionOutput(() => ({
   WFWorkflowActionIdentifier: 'is.workflow.actions.dictatetext',
   WFWorkflowActionParameters: {
-    DictateTextLanguage: 'zh-CN',
-    DictateTextStopListening: 'Time'
+    WFSpeechLanguage: 'zh-CN',
+    WFDictateTextStopListening: 'After Pause'
   }
 }));
 
