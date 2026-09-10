@@ -47,6 +47,11 @@ const dom = {
   searchResults: document.getElementById("searchResults"),
   searchEmpty: document.getElementById("searchEmpty"),
   detailSheet: document.getElementById("detailSheet"),
+  dictationSheet: document.getElementById("dictationSheet"),
+  openDictationButton: document.getElementById("openDictationButton"),
+  closeDictationButton: document.getElementById("closeDictationButton"),
+  saveDictationButton: document.getElementById("saveDictationButton"),
+  dictationText: document.getElementById("dictationText"),
   closeDetailButton: document.getElementById("closeDetailButton"),
   deleteNoteButton: document.getElementById("deleteNoteButton"),
   detailGroup: document.getElementById("detailGroup"),
@@ -503,6 +508,38 @@ async function openDetail(noteId) {
   dom.detailSheet.hidden = false;
 }
 
+function openDictation() {
+  dom.dictationText.value = "";
+  dom.dictationSheet.hidden = false;
+  window.setTimeout(() => dom.dictationText.focus(), 80);
+}
+
+function closeDictation() {
+  dom.dictationSheet.hidden = true;
+  dom.dictationText.blur();
+}
+
+async function saveDictation() {
+  const text = dom.dictationText.value.trim();
+  if (!text) {
+    showToast("请先输入或听写内容");
+    return;
+  }
+
+  dom.saveDictationButton.disabled = true;
+  try {
+    await saveShortcutNote(text);
+    renderHome();
+    renderSearch();
+    closeDictation();
+    showToast("已保存，并自动整理归类");
+  } catch (error) {
+    showToast(error.message || "保存失败，请重试");
+  } finally {
+    dom.saveDictationButton.disabled = false;
+  }
+}
+
 function closeDetail() {
   dom.detailSheet.hidden = true;
   dom.detailAudio.pause();
@@ -665,6 +702,9 @@ dom.searchForm.addEventListener("submit", (event) => {
 });
 dom.voiceSearchButton.addEventListener("click", startVoiceSearch);
 dom.askAgainButton.addEventListener("click", startVoiceSearch);
+dom.openDictationButton.addEventListener("click", openDictation);
+dom.closeDictationButton.addEventListener("click", closeDictation);
+dom.saveDictationButton.addEventListener("click", saveDictation);
 dom.closeDetailButton.addEventListener("click", closeDetail);
 dom.deleteNoteButton.addEventListener("click", removeCurrentNote);
 dom.dismissInstallTip.addEventListener("click", () => {

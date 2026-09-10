@@ -74,6 +74,9 @@
           <svg><use href="#i-mic"></use></svg>
           <span>开始说话</span>
         </button>
+        <button class="text-capture-button" id="openDictationButton" type="button">
+          键盘听写，最稳定
+        </button>
       </footer>
     </main>
 
@@ -139,6 +142,21 @@
           <svg><use href="#i-mic"></use></svg><span>问一句</span>
         </button>
       </footer>
+    </section>
+
+    <section class="detail-sheet dictation-sheet" id="dictationSheet" hidden aria-modal="true" role="dialog">
+      <div class="sheet-handle"></div>
+      <header class="detail-header">
+        <button class="text-button" id="closeDictationButton" type="button">取消</button>
+        <span>键盘听写</span>
+        <span style="width:44px"></span>
+      </header>
+      <div class="dictation-body">
+        <h2>点键盘下方的麦克风说话</h2>
+        <p>iPhone 会把你说的话直接输入到下面。说完点击保存，声记会自动整理归类。</p>
+        <textarea id="dictationText" rows="7" placeholder="也可以直接输入文字……" autocomplete="off"></textarea>
+        <button class="primary-button" id="saveDictationButton" type="button">保存到声记</button>
+      </div>
     </section>
 
     <section class="detail-sheet" id="detailSheet" hidden aria-modal="true" role="dialog">
