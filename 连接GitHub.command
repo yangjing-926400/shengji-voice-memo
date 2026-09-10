@@ -4,10 +4,10 @@ cd "$(dirname "$0")"
 export PATH="$HOME/.local/bin:$PATH"
 clear
 printf '\n声记云构建：连接 GitHub\n\n'
-printf '接下来会打开浏览器。请登录或免费注册 GitHub，并输入终端显示的设备代码。\n'
-printf '不要把密码或设备代码发送到对话里。\n\n'
+printf '接下来会打开浏览器，设备代码会自动复制到剪贴板。\n'
+printf '浏览器出现代码输入框时，直接按 Command-V 粘贴。\n不要把密码或设备代码发送到对话里。\n\n'
 if ! gh auth status >/dev/null 2>&1; then
-  gh auth login --hostname github.com --git-protocol https --web
+  gh auth login --hostname github.com --git-protocol https --web --clipboard --skip-ssh-key
 fi
 
 git add .
