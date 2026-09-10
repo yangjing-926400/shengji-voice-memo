@@ -48,7 +48,7 @@ const dom = {
   searchEmpty: document.getElementById("searchEmpty"),
   detailSheet: document.getElementById("detailSheet"),
   dictationSheet: document.getElementById("dictationSheet"),
-  openDictationButton: document.getElementById("openDictationButton"),
+  openRecorderButton: document.getElementById("openRecorderButton"),
   closeDictationButton: document.getElementById("closeDictationButton"),
   saveDictationButton: document.getElementById("saveDictationButton"),
   dictationText: document.getElementById("dictationText"),
@@ -691,7 +691,8 @@ async function initialize() {
   }
 }
 
-dom.startRecordButton.addEventListener("click", startRecording);
+dom.startRecordButton.addEventListener("click", openDictation);
+dom.openRecorderButton.addEventListener("click", startRecording);
 dom.stopRecordButton.addEventListener("click", stopRecording);
 dom.cancelRecordButton.addEventListener("click", cancelRecording);
 dom.openSearchButton.addEventListener("click", openSearch);
@@ -702,7 +703,6 @@ dom.searchForm.addEventListener("submit", (event) => {
 });
 dom.voiceSearchButton.addEventListener("click", startVoiceSearch);
 dom.askAgainButton.addEventListener("click", startVoiceSearch);
-dom.openDictationButton.addEventListener("click", openDictation);
 dom.closeDictationButton.addEventListener("click", closeDictation);
 dom.saveDictationButton.addEventListener("click", saveDictation);
 dom.closeDetailButton.addEventListener("click", closeDetail);
