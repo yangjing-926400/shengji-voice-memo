@@ -508,19 +508,6 @@ async function openDetail(noteId) {
   dom.detailSheet.hidden = false;
 }
 
-function startShortcutCapture() {
-  const shortcutURL = `shortcuts://run-shortcut?name=${encodeURIComponent("声记")}`;
-  const startedAt = Date.now();
-  window.location.href = shortcutURL;
-
-  window.setTimeout(() => {
-    if (document.visibilityState === "visible" && Date.now() - startedAt < 2200) {
-      openDictation();
-      showToast("打开键盘麦克风，也可以直接说");
-    }
-  }, 1500);
-}
-
 function openDictation() {
   dom.dictationText.value = "";
   dom.dictationSheet.hidden = false;
@@ -541,7 +528,7 @@ async function saveDictation() {
 
   dom.saveDictationButton.disabled = true;
   try {
-    await saveShortcutNote(text);
+    await saveTextNote(text);
     renderHome();
     renderSearch();
     closeDictation();
@@ -575,7 +562,7 @@ async function removeCurrentNote() {
   showToast("记录已删除");
 }
 
-async function saveShortcutNote(text) {
+async function saveTextNote(text) {
   const cleanText = String(text || "").trim();
   if (!cleanText) return;
 
@@ -671,13 +658,7 @@ async function initialize() {
   state.notes = await getAllNotes();
 
   const initialParams = new URLSearchParams(window.location.search);
-  const shortcutText = initialParams.get("shortcutText");
-  if (shortcutText) {
-    await saveShortcutNote(shortcutText);
-    const cleanedURL = new URL(window.location.href);
-    cleanedURL.searchParams.delete("shortcutText");
-    window.history.replaceState({}, "", `${cleanedURL.pathname}${cleanedURL.search}${cleanedURL.hash}`);
-  } else if (initialParams.has("demo")) {
+  if (initialParams.has("demo")) {
     await seedDemoData();
   }
 
@@ -695,16 +676,12 @@ async function initialize() {
     }
   }
 
-  if (shortcutText) {
-    showToast("快捷指令已保存，并自动整理归类", 3000);
-  }
-
   if ("serviceWorker" in navigator && window.location.protocol !== "file:") {
     navigator.serviceWorker.register("./service-worker.js").catch(() => {});
   }
 }
 
-dom.startRecordButton.addEventListener("click", startShortcutCapture);
+dom.startRecordButton.addEventListener("click", openDictation);
 dom.openRecorderButton.addEventListener("click", startRecording);
 dom.stopRecordButton.addEventListener("click", stopRecording);
 dom.cancelRecordButton.addEventListener("click", cancelRecording);
