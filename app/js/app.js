@@ -576,7 +576,7 @@ async function saveTextNote(text) {
     tags: [],
     durationMs: 0,
     status: "ready",
-    transcriptionEngine: "apple-shortcut",
+    transcriptionEngine: "keyboard-dictation",
     classificationConfidence: classification.confidence,
     classificationReason: classification.reason
   };
