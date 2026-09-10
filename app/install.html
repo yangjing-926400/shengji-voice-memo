@@ -39,9 +39,8 @@
     <section class="step">
       <span class="step-number">1</span>
       <h2>添加到主屏幕</h2>
-      <p>点击“一键安装”后，按系统提示完成两次确认：添加到主屏幕、添加快捷指令。iPhone 不允许网页完全免确认安装。</p>
-      <div class="actions"><button class="primary" id="installButton" type="button">一键安装</button></div>
-      <p id="manualHint" style="display:none;margin-top:12px;color:var(--green);">如果分享菜单没有出现，请点击 Safari 底部分享按钮，再选择“添加到主屏幕”。</p>
+      <p>先点击“打开声记”。进入后点击 Safari 底部的分享按钮，向下找到“添加到主屏幕”。这是 iPhone 必须手动完成的步骤。</p>
+      <div class="actions"><a class="primary" href="./">打开声记</a></div>
     </section>
 
     <section class="step">
@@ -59,49 +58,5 @@
 
     <div class="notice">如果快捷指令文件没有自动打开 Shortcuts，请从 Mac 隔空投送到 iPhone。搜索时说的话不会保存成新记录。</div>
   </main>
-  <script>
-    const installButton = document.getElementById('installButton');
-    const manualHint = document.getElementById('manualHint');
-    const appURL = new URL('./', window.location.href).href;
-    let deferredPrompt = null;
-
-    window.addEventListener('beforeinstallprompt', (event) => {
-      event.preventDefault();
-      deferredPrompt = event;
-      installButton.textContent = '一键安装';
-    });
-
-    installButton.addEventListener('click', async () => {
-      installButton.disabled = true;
-
-      if (deferredPrompt) {
-        deferredPrompt.prompt();
-        await deferredPrompt.userChoice;
-        deferredPrompt = null;
-        window.location.href = './Shengji.shortcut';
-        return;
-      }
-
-      if (navigator.share) {
-        try {
-          await navigator.share({
-            title: '声记',
-            text: '添加声记到主屏幕',
-            url: appURL
-          });
-          window.setTimeout(() => {
-            window.location.href = './Shengji.shortcut';
-          }, 500);
-          return;
-        } catch {
-          manualHint.style.display = 'block';
-        }
-      } else {
-        manualHint.style.display = 'block';
-      }
-
-      installButton.disabled = false;
-    });
-  </script>
 </body>
 </html>
