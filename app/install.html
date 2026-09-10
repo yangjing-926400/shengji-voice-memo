@@ -20,8 +20,8 @@
     h2 { margin:0 0 8px; font-size:17px; letter-spacing:-.3px; }
     p { margin:0; color:var(--muted); font-size:13px; line-height:1.7; }
     .actions { margin-top:16px; }
-    .primary, .secondary { display:flex; min-height:50px; align-items:center; justify-content:center; border-radius:12px; text-decoration:none; font-size:14px; font-weight:700; }
-    .primary { background:var(--ink); color:white; }
+    .primary, .secondary { display:flex; width:100%; min-height:50px; align-items:center; justify-content:center; border:0; border-radius:12px; text-decoration:none; font-size:14px; font-weight:700; cursor:pointer; }
+    .primary { background:var(--ink); color:white; font-family:inherit; }
     .secondary { border:1px solid var(--line); background:var(--surface); color:var(--ink); }
     .notice { margin-top:18px; padding:13px 14px; border-radius:11px; background:var(--green-soft); color:var(--green); font-size:11px; line-height:1.6; }
   </style>
@@ -39,8 +39,9 @@
     <section class="step">
       <span class="step-number">1</span>
       <h2>添加到主屏幕</h2>
-      <p>使用 Safari 打开声记，点击底部分享按钮，选择“添加到主屏幕”。</p>
-      <div class="actions"><a class="primary" href="./">打开声记</a></div>
+      <p>点击下面的按钮打开 Safari 分享菜单，然后选择“添加到主屏幕”。iPhone 不允许网页完全自动添加，这是系统限制。</p>
+      <div class="actions"><button class="primary" id="installButton" type="button">一键添加</button></div>
+      <p id="manualHint" style="display:none;margin-top:12px;color:var(--green);">如果分享菜单没有出现，请点击 Safari 底部分享按钮，再选择“添加到主屏幕”。</p>
     </section>
 
     <section class="step">
@@ -58,5 +59,43 @@
 
     <div class="notice">如果快捷指令文件没有自动打开 Shortcuts，请从 Mac 隔空投送到 iPhone。搜索时说的话不会保存成新记录。</div>
   </main>
+  <script>
+    const installButton = document.getElementById('installButton');
+    const manualHint = document.getElementById('manualHint');
+    const appURL = new URL('./', window.location.href).href;
+    let deferredPrompt = null;
+
+    window.addEventListener('beforeinstallprompt', (event) => {
+      event.preventDefault();
+      deferredPrompt = event;
+      installButton.textContent = '一键安装';
+    });
+
+    installButton.addEventListener('click', async () => {
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        await deferredPrompt.userChoice;
+        deferredPrompt = null;
+        return;
+      }
+
+      if (navigator.share) {
+        try {
+          await navigator.share({
+            title: '声记',
+            text: '添加声记到主屏幕',
+            url: appURL
+          });
+          manualHint.style.display = 'block';
+          return;
+        } catch {
+          // The user may close the share sheet; continue to the manual path.
+        }
+      }
+
+      window.location.href = appURL;
+      manualHint.style.display = 'block';
+    });
+  </script>
 </body>
 </html>
